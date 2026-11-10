@@ -1,0 +1,24 @@
+﻿==================================================
+               RESUMO DAS TAREFAS              
+               Data: 09/11/2026
+==================================================
+📌 Tarefas atrasadas: 2
+📌 Tarefas para esta semana: 2
+📌 Total de tarefas pendentes: 5
+--------------------------------------------------
+
+Detalhamento por urgência (calculada pelo prazo):
+urgencia
+Crítica (Atrasada)    2
+Alta                  1
+Média                 1
+Baixa                 1
+
+Próximas tarefas a vencer:
+                       nome      prazo prioridade (app)   urgência (prazo)
+         Pagar conta de luz 05/11/2026             Alta Crítica (Atrasada)
+     Trocar lâmpada da sala 08/11/2026            Baixa Crítica (Atrasada)
+       Levar lixo para fora 10/11/2026            Média               Alta
+Comprar material de limpeza 12/11/2026            Média              Média
+           Revisar extintor 20/11/2026             Alta              Baixa
+==================================================
