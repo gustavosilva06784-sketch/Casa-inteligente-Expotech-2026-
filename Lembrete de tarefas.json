@@ -1,0 +1,157 @@
+{
+  "name": "Lembrete de tarefas.",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        112,
+        -176
+      ],
+      "id": "eefe0632-dce9-4ed5-9a3e-b74b8e309a1d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Loop Over Items').item.json['E-mail do responsável'] }}",
+        "subject": "=Lembrete: {{ $('Loop Over Items').item.json.Nome }} – confira o prazo",
+        "emailType": "text",
+        "message": "=Olá, {{ $json['Responsável'] }}! A tarefa {{ $json.Nome }} vence em {{ Math.round((DateTime.fromISO($json.Prazo).isValid ? DateTime.fromISO($json.Prazo) : DateTime.fromFormat($json.Prazo, 'dd/MM/yyyy')).startOf('day').diff($now.startOf('day'), 'days').days) }} dia(s). Prioridade: {{ $json.Prioridade }}. Não esqueça de concluí-la no app.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        -160
+      ],
+      "id": "f0726b93-d80b-44a9-8f70-4d220a54b47f",
+      "name": "Send a message",
+      "webhookId": "a5e291c1-7ce2-4da4-b9f1-654f4fb1ad67",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "xrYqOaXBgVH2m6zY",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1fKAl1ALXWXlcnsx1PPtihMemNUZuF8ekIR9WAURVzTw",
+          "mode": "list",
+          "cachedResultName": "Tabela de tarefas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fKAl1ALXWXlcnsx1PPtihMemNUZuF8ekIR9WAURVzTw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2066515939,
+          "mode": "list",
+          "cachedResultName": "export_All-Tarefas_2026-11-10_23-17-00 (1)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fKAl1ALXWXlcnsx1PPtihMemNUZuF8ekIR9WAURVzTw/edit#gid=2066515939"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        -176
+      ],
+      "id": "944fb827-36f6-4960-8590-1f77e41b4e81",
+      "name": "Get row(s) in sheet",
+      "retryOnFail": true,
+      "waitBetweenTries": 0,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "JkqL4Yyw3Rbza3Gy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        576,
+        -176
+      ],
+      "id": "85e86f7f-b05d-4f6c-bd5c-d0bcfc9aa0e9",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2abd7442-a3cb-4f8c-a12c-aad6bc155ae3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "402936e65d25655975fc21a1c3247c75a2ea6567442f02c790ed4230610058c6"
+  },
+  "nodeGroups": [],
+  "id": "zJ802XU55ZyQ2zss",
+  "tags": []
+}

@@ -1,0 +1,7 @@
+nome,prazo,status,prioridade,responsavel,email_responsavel
+Pagar conta de luz,2026-11-05,Pendente,Alta,Maria,maria@exemplo.com
+Trocar lâmpada da sala,2026-11-08,Em andamento,Baixa,João,joao@exemplo.com
+Levar lixo para fora,2026-11-10,Pendente,Média,Maria,maria@exemplo.com
+Comprar material de limpeza,2026-11-12,Pendente,Média,João,joao@exemplo.com
+Revisar extintor,2026-11-20,Pendente,Alta,Maria,maria@exemplo.com
+Pagar internet,2026-11-03,Concluída,Alta,João,joao@exemplo.com
