@@ -18,13 +18,11 @@ import pandas as pd
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Evita erro de acentos/emojis em terminais Windows
 try:
     sys.stdout.reconfigure(encoding="utf-8")
 except Exception:
     pass
 
-# Nome interno -> nomes aceitos no CSV (já sem acento e em minúsculas)
 COLUNAS = {
     "id": ["id", "unique id"],
     "nome": ["nome", "nome da tarefa"],
@@ -73,7 +71,6 @@ def calcular_urgencia(prazo, hoje):
 
 
 def analisar_tarefas(caminho_csv, data_hoje=None):
-    # 1. Carregar o CSV
     try:
         df = pd.read_csv(caminho_csv, encoding="utf-8-sig", sep=None, engine="python")
     except FileNotFoundError:
@@ -83,24 +80,20 @@ def analisar_tarefas(caminho_csv, data_hoje=None):
 
     df = padronizar_colunas(df)
 
-    # 2. Converter a data (só o dia, sem hora, para 'vence hoje' não virar atraso)
     df["prazo"] = pd.to_datetime(df["prazo"], errors="coerce")
     if getattr(df["prazo"].dt, "tz", None) is not None:
         df["prazo"] = df["prazo"].dt.tz_localize(None)
     df["prazo"] = df["prazo"].dt.normalize()
 
-    # 3. Remover tarefas concluídas
     df = df[df["status"].map(normalizar) != "concluida"].copy()
 
     hoje = pd.Timestamp(data_hoje).normalize() if data_hoje else pd.Timestamp.now().normalize()
     fim_semana = hoje + pd.Timedelta(days=6 - hoje.weekday())  # domingo
 
-    # 4. Cálculo das tarefas atrasadas e da semana
     atrasadas = df[df["prazo"] < hoje]
     para_esta_semana = df[(df["prazo"] >= hoje) & (df["prazo"] <= fim_semana)]
     df["urgencia"] = df["prazo"].map(lambda p: calcular_urgencia(p, hoje))
 
-    # 5. Exibição
     print("=" * 50)
     print("               RESUMO DAS TAREFAS              ")
     print(f"               Data: {hoje.strftime('%d/%m/%Y')}")
