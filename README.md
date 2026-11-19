@@ -1,5 +1,12 @@
 Casa Inteligente — ExpoTech 2026
 
+Autores:
+
+|Jean Messias - RA: 276788
+|Nicolas Matos - RA: 296473
+|José Matheus - RA: 297997
+|Gustavo Henrique de Jesus Silva - 281939
+|Juan Silva Rodrigues Carlos - RA: 299358
 Sobre o Projeto
 
 Projeto acadêmico desenvolvido para a **ExpoTech 2026**, com o objetivo de aplicar conhecimentos de tecnologia, programação e automação no desenvolvimento de soluções digitais.
